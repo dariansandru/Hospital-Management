@@ -66,3 +66,7 @@ void Doctor::assignData(DateTime _dateOfBirth, const std::string &_address, cons
     this->phoneNumber = _phoneNumber;
     this->speciality = _speciality;
 }
+
+void operator<<(std::ostream &o, Doctor doctor) {
+    o << "Welcome " << doctor.showAccount() << "! We hope your time here will be productive!" << std::endl;
+}

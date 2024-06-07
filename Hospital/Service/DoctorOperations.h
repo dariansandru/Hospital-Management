@@ -8,7 +8,6 @@
 #include <stack>
 #include "../Utilities/ParseFunctions.h"
 #include "../Utilities/StringFunctions.h"
-#include "../Classes/Stack.h"
 #include "../Repos/MedicineRepo.h"
 
 void SeeDoctorFile();

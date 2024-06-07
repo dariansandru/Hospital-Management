@@ -77,3 +77,7 @@ std::string Patient::createFile(){
     return std::to_string(this->UID) + "," + std::to_string(this->doctorID) + "," + this->dateOfBirth.showTime() + "," + this->address + "," +
             this->phoneNumber + "," + this->symptoms;
 }
+
+void operator<<(std::ostream &o, Patient patient) {
+    o << "Welcome " << patient.showAccount() << "! We hope your time here will be good!" << std::endl;
+}

@@ -4,8 +4,6 @@ project(Hospital)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Hospital main.cpp
-        Classes/Person.cpp
-        Classes/Person.h
         Classes/Patient.cpp
         Classes/Patient.h
         Classes/Doctor.cpp
@@ -30,8 +28,6 @@ add_executable(Hospital main.cpp
         Service/DoctorOperations.cpp
         Service/PersonInfo.h
         Service/PersonInfo.cpp
-        Classes/Stack.h
-        Classes/Stack.cpp
         Repos/MedicineRepo.h
         Repos/MedicineRepo.cpp
 )

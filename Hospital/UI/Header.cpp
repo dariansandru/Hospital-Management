@@ -40,7 +40,7 @@ void showHospitalHeader(){
 }
 
 void showPatientHeader(){
-    std::cout << "Welcome " << loggedPatient.showAccount() << "! We hope your time here will be good!" << std::endl;
+    std::cout << loggedPatient;
     showPatientOptions();
 
     std::string choice; getline(std::cin, choice);
@@ -62,7 +62,7 @@ void showPatientHeader(){
 }
 
 void showDoctorHeader(){
-    std::cout << "Welcome " << loggedDoctor.showAccount() << "! We hope your time here will be productive!" << std::endl;
+    std::cout << loggedDoctor;
     showDoctorOptions();
 
     std::string choice; getline(std::cin, choice);

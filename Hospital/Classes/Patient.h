@@ -25,6 +25,7 @@ public:
     bool empty() const;
     bool emptyFile() const;
 
+    friend void operator <<(std::ostream&, Patient);
 protected:
     int UID;
     std::string password;
