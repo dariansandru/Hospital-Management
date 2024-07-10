@@ -1,6 +1,6 @@
 #include "ParseFunctions.h"
 
-int getID(const std::string& name, const std::string& path){
+int ParseFunctions::getID(const std::string& name, const std::string& path){
     std::ifstream dFin(path);
 
     std::string line;
@@ -16,7 +16,7 @@ int getID(const std::string& name, const std::string& path){
     return -1;
 }
 
-bool validName(std::string line){
+bool ParseFunctions::validName(std::string line){
     int pos = 0;
     while (pos != line.size()){
         if (line[pos] == ' '){
@@ -29,7 +29,7 @@ bool validName(std::string line){
     return true;
 }
 
-bool validPatientLogin(std::string line){
+bool ParseFunctions::validPatientLogin(std::string line){
     if (line.empty()) return false;
 
     line = Strip(line, ' ');
@@ -43,14 +43,14 @@ bool validPatientLogin(std::string line){
         return false;
     }
 
-    if (!PatientRepoExist(account)){
+    if (!this->patientRepo->PatientRepoExist(account)){
         std::cout << "This account does not exist!" << std::endl;
         return false;
     }
 
     if (passwordValidation(account)) {
         loggedPatient = {getID(account, patientPath), Split(account, ' ', 0),
-                         Split(account, ' ', 1), PatientRepoPassword(account)};
+                         Split(account, ' ', 1), this->patientRepo->PatientRepoPassword(account)};
         patientFileAssign(getID(account, patientPath));
         return true;
     }
@@ -58,7 +58,7 @@ bool validPatientLogin(std::string line){
     return false;
 }
 
-bool validPatientRegister(std::string line){
+bool ParseFunctions::validPatientRegister(std::string line){
     if (line.empty()) return false;
 
     line = Strip(line, ' ');
@@ -71,10 +71,10 @@ bool validPatientRegister(std::string line){
         std::cout << account << " is not a valid name!" << std::endl;
         return false;
     }
-    if (!PatientRepoDuplicate(account)){
+    if (!this->patientRepo->PatientRepoDuplicate(account)){
         std::string password = createPassword();
         loggedPatient = {totalPatients + 1, Split(account,  ' ', 0), Split(account, ' ', 1), password};
-        PatientRepoAdd(loggedPatient.createLine());
+        this->patientRepo->PatientRepoAdd(loggedPatient.createLine());
 
         return true;
     }
@@ -85,7 +85,7 @@ bool validPatientRegister(std::string line){
 
 }
 
-bool validDoctorLogin(std::string line){
+bool ParseFunctions::validDoctorLogin(std::string line){
     if (line.empty()) return false;
 
     line = Strip(line, ' ');
@@ -99,14 +99,14 @@ bool validDoctorLogin(std::string line){
         return false;
     }
 
-    if (!DoctorRepoExist(account)){
+    if (!this->doctorRepo->DoctorRepoExist(account)){
         std::cout << "This account does not exist!" << std::endl;
         return false;
     }
 
     if (passwordValidation(account)) {
         loggedDoctor = {getID(account, doctorPath), Split(account, ' ', 0),
-                         Split(account, ' ', 1), DoctorRepoPassword(account)};
+                         Split(account, ' ', 1), this->doctorRepo->DoctorRepoPassword(account)};
         doctorFileAssign(getID(account, doctorPath));
         return true;
     }
@@ -114,7 +114,7 @@ bool validDoctorLogin(std::string line){
     return false;
 }
 
-bool validDoctorRegister(std::string line){
+bool ParseFunctions::validDoctorRegister(std::string line){
     if (line.empty()) return false;
 
     line = Strip(line, ' ');
@@ -127,10 +127,10 @@ bool validDoctorRegister(std::string line){
         std::cout << account << "is not a valid name!" << std::endl;
         return false;
     }
-    if (!DoctorRepoDuplicate(account)) {
+    if (!this->doctorRepo->DoctorRepoDuplicate(account)) {
         std::string password = createPassword();
         loggedDoctor = {totalDoctors + 1, Split(account,  ' ', 0), Split(account, ' ', 1), password};
-        DoctorRepoAdd(loggedDoctor.createLine());
+        this->doctorRepo->DoctorRepoAdd(loggedDoctor.createLine());
 
         return true;
     }
@@ -141,7 +141,7 @@ bool validDoctorRegister(std::string line){
 
 }
 
-bool validCommand(std::string line){
+bool ParseFunctions::validCommand(std::string line){
     line = Strip(line, ' ');
     std::string commandLine = Split(line, ' ', 0);
 
@@ -149,7 +149,7 @@ bool validCommand(std::string line){
     return false;
 }
 
-std::string createPassword(){
+std::string ParseFunctions::createPassword(){
     std::cout << "Please input a password for you account!" << std::endl;
     std::string newPassword;  std::getline(std::cin, newPassword);
 
@@ -161,17 +161,17 @@ std::string createPassword(){
     return newPassword;
 }
 
-bool passwordValidation(const std::string& account){
+bool ParseFunctions::passwordValidation(const std::string& account){
     std::cout << "Please enter your password:" << std::endl;
     std::string password; std::getline(std::cin, password);
 
-    if (PatientRepoPassword(account) == password || DoctorRepoPassword(account) == password) return true;
+    if (this->patientRepo->PatientRepoPassword(account) == password || this->doctorRepo->DoctorRepoPassword(account) == password) return true;
 
     std::cout << "The password you entered is incorrect!" << std::endl;
     return false;
 }
 
-void patientFileAssign(int id){
+void ParseFunctions::patientFileAssign(int id){
     std::ifstream pFin(pFilePath);
 
     std::string data;
@@ -194,7 +194,7 @@ void patientFileAssign(int id){
     }
 }
 
-void doctorFileAssign(int id){
+void ParseFunctions::doctorFileAssign(int id){
     std::ifstream dFin(dFilePath);
 
     std::string data;

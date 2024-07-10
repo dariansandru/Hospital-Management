@@ -1,19 +1,19 @@
 #include "PatientRepo.h"
 
-void PatientRepoLoad(){
+void PatientRepo::PatientRepoLoad(){
     if (totalPatients != 0) return;
     std::ifstream pFin(patientPath);
 
     std::string line;
     while (getline(pFin, line)) {
-        patientRepo[totalPatients] = line;
+        patientRepo.push_back(line);
         totalPatients++;
     }
 
     pFin.close();
 }
 
-void PatientRepoSave(){
+void PatientRepo::PatientRepoSave(){
     std::ofstream pTrunc(patientPath, std::ios_base::trunc);
     pTrunc.close();
 
@@ -28,22 +28,13 @@ void PatientRepoSave(){
     pFout.close();
 }
 
-void PatientRepoAdd(const std::string& line){
+void PatientRepo::PatientRepoAdd(const std::string& line){
     patientRepo[totalPatients] = line;
     totalPatients++;
     PatientRepoSave();
 }
 
-void PatientRepoShow(){
-    int pos = 0;
-
-    while (pos != totalPatients){
-        std::cout << patientRepo[pos] << std::endl;
-        pos++;
-    }
-}
-
-bool PatientRepoDuplicate(const std::string& line){
+bool PatientRepo::PatientRepoDuplicate(const std::string& line){
     std::ifstream dFin(patientPath);
 
     std::string data;
@@ -59,7 +50,7 @@ bool PatientRepoDuplicate(const std::string& line){
     return false;
 }
 
-bool PatientRepoExist(const std::string& line){
+bool PatientRepo::PatientRepoExist(const std::string& line){
     int pos = 0;
     while (pos != totalPatients){
         std::string account = Split(patientRepo[pos], ',', 1) + " " + Split(patientRepo[pos], ',', 2);
@@ -71,7 +62,7 @@ bool PatientRepoExist(const std::string& line){
     return false;
 }
 
-std::string PatientRepoPassword(const std::string& line){
+std::string PatientRepo::PatientRepoPassword(const std::string& line){
     int pos = 0;
     while (pos != totalPatients){
         std::string account = Split(patientRepo[pos], ',', 1) + " " + Split(patientRepo[pos], ',', 2);

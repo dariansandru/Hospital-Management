@@ -12,9 +12,9 @@ std::string medicinePath = "./files/Medicine.txt";
 std::string doctorPatients = "./files/DoctorPatients.txt";
 std::string appointmentsPath = "./files/Appointments.txt";
 
-std::string doctorRepo[100];
-std::string patientRepo[100];
-std::string medicineRepo[100];
+DoctorOperations doctorOperations = DoctorOperations();
+PatientOperations patientOperations = PatientOperations();
+ParseFunctions parseFunctions = ParseFunctions();
 
 Doctor loggedDoctor;
 Patient loggedPatient;

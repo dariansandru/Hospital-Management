@@ -1,6 +1,6 @@
 #include "PatientOperations.h"
 
-void FillMedicalFile(){
+void PatientOperations::FillMedicalFile(){
     bool change = false;
 
     if (!loggedPatient.emptyFile()) {
@@ -72,11 +72,11 @@ void FillMedicalFile(){
     }
 }
 
-void SeeMedicalFile(){
+void PatientOperations::SeeMedicalFile(){
     loggedPatient.showFile();
 }
 
-void pSeeMedicineList(){
+void PatientOperations::pSeeMedicineList(){
     std::cout << "Medicine List:" << std::endl;
     std::ifstream fin(medicinePath);
 
@@ -90,7 +90,7 @@ void pSeeMedicineList(){
     std::cout << std::endl;
 }
 
-void AddDoctorAppointment(){
+void PatientOperations::AddDoctorAppointment(){
     std::cout << "Which speciality should your doctor be?" << std::endl;
 
     std::cout << "1. Anesthesiology" << std::endl;
@@ -137,7 +137,7 @@ void AddDoctorAppointment(){
         std::cout << "Please select a valid doctor!" << std::endl;
         std::cin >> choice;
     }
-    std::string line = std::to_string(getID(doctors[choice], doctorPath)) + "," +
+    std::string line = std::to_string(this->parse->getID(doctors[choice], doctorPath)) + "," +
             std::to_string(loggedPatient.getID());
 
     std::ofstream aFout(appointmentsPath, std::ios_base::app);
@@ -148,7 +148,7 @@ void AddDoctorAppointment(){
     std::cout << std::endl << std::endl;
 }
 
-void CheckDoctorAppointment(){
+void PatientOperations::CheckDoctorAppointment(){
     bool found = false;
     
     std::ifstream aFin(appointmentsPath);
@@ -183,7 +183,7 @@ void CheckDoctorAppointment(){
     }
 }
 
-void showFile(const std::string& file){
+void PatientOperations::showFile(const std::string& file){
     int doctorID = stoi(Split(file, ',', 0));
     int patientID = stoi(Split(file, ',', 1));
     std::string date = Split(file, ',', 2);

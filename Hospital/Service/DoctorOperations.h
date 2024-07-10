@@ -6,30 +6,50 @@
 #include <string>
 #include <iostream>
 #include <stack>
+#include <memory>
 #include "../Utilities/ParseFunctions.h"
 #include "../Utilities/StringFunctions.h"
 #include "../Repos/MedicineRepo.h"
+#include "../Repos/DoctorRepo.h"
+#include "../Repos/PatientRepo.h"
 
-void SeeDoctorFile();
+class DoctorOperations{
+private:
+    std::unique_ptr<DoctorRepo> doctorRepo;
+    std::unique_ptr<MedicineRepo> medicineRepo;
+    std::unique_ptr<PatientRepo> patientRepo;
+    std::unique_ptr<class ParseFunctions> parse;
 
-void FillDoctorFile();
+public:
+    void init(DoctorRepo* _doctorRepo,
+              MedicineRepo* _medicineRepo,
+              PatientRepo* _patientRepo) {
+        doctorRepo = std::make_unique<class DoctorRepo>(*_doctorRepo);
+        medicineRepo = std::make_unique<class MedicineRepo>(*_medicineRepo);
+        patientRepo = std::make_unique<class PatientRepo>(*_patientRepo);
+    }
 
-void SeePatientAppointments();
+    void SeeDoctorFile();
 
-void dSeeMedicineList();
+    void FillDoctorFile();
 
-void ModifyMedicineList();
+    void SeePatientAppointments();
 
-void FillMedicineFile();
+    void dSeeMedicineList();
 
-std::string getSpeciality(int);
+    void ModifyMedicineList();
 
-void makeAppointment(int, DateTime);
+    void FillMedicineFile();
 
-void saveFile(const std::string&);
+    void makeAppointment(int, DateTime);
 
-bool hasAppointment(const std::string&);
+    void saveFile(const std::string&);
 
-void showPatientFile(int);
+    bool hasAppointment(const std::string&);
+
+    void showPatientFile(int);
+
+    DoctorOperations() {};
+};
 
 #endif //HOSPITAL_DOCTOROPERATIONS_H

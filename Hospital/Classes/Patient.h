@@ -15,7 +15,6 @@ public:
     void showFile();
     void assignData(int, DateTime, const std::string& , const std::string&, const std::string&);
     void assignPassword(const std::string&);
-    void assignSymptoms(const std::string&);
 
     std::string createLine();
     std::string createFile();

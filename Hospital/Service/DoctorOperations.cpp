@@ -1,11 +1,11 @@
 #include "DoctorOperations.h"
 
-void SeeDoctorFile(){
+void DoctorOperations::SeeDoctorFile(){
     loggedDoctor.showFile();
     std::cout << std::endl;
 }
 
-void FillDoctorFile(){
+void DoctorOperations::FillDoctorFile(){
     bool change = false;
 
     if (!loggedDoctor.emptyFile()) {
@@ -91,7 +91,7 @@ void FillDoctorFile(){
     }
 }
 
-void SeePatientAppointments(){
+void DoctorOperations::SeePatientAppointments(){
     bool found = false;
 
     int patientNumber = 1;
@@ -146,7 +146,7 @@ void SeePatientAppointments(){
         std::cin >> choice;
     }
 
-    int patientID = getID(patients[choice], patientPath);
+    int patientID = this->parse->getID(patients[choice], patientPath);
     std::cout << "Input a date for the appointment (dd/MM/yyyy): ";
     std::string date; getline(std::cin, date);
 
@@ -167,7 +167,7 @@ void SeePatientAppointments(){
 
 }
 
-void dSeeMedicineList(){
+void DoctorOperations::dSeeMedicineList(){
     std::cout << "Medicine List:" << std::endl;
     std::ifstream fin(medicinePath);
 
@@ -181,7 +181,7 @@ void dSeeMedicineList(){
     std::cout << std::endl;
 }
 
-void ModifyMedicineList(){
+void DoctorOperations::ModifyMedicineList(){
     std::stack<std::string> changes;
     std::stack<std::string> redo;
     dSeeMedicineList();
@@ -206,14 +206,14 @@ void ModifyMedicineList(){
                 getline(std::cin, choice);
                 continue;
             }
-            if (MedicineRepoExist(medicine)){
-                int newQuantity = getQuantity(medicine) + stoi(quantity);
-                MedicineRepoModify(medicine, std::to_string(newQuantity));
+            if (this->medicineRepo->MedicineRepoExist(medicine)){
+                int newQuantity = this->medicineRepo->getQuantity(medicine) + stoi(quantity);
+                this->medicineRepo->MedicineRepoModify(medicine, std::to_string(newQuantity));
                 std::cout << "Medicine was added successfully!" << std::endl;
                 std::getline(std::cin, choice);
                 continue;
             }
-            MedicineRepoAdd(medicine + "," + quantity);
+            this->medicineRepo->MedicineRepoAdd(medicine + "," + quantity);
             changes.push(medicine + "," + quantity);
             std::cout << "Medicine was added successfully!" << std::endl;
             std::getline(std::cin, choice);
@@ -224,13 +224,13 @@ void ModifyMedicineList(){
                 getline(std::cin, choice);
                 continue;
             }
-            if (stoi(quantity) > getQuantity(medicine)){
+            if (stoi(quantity) > this->medicineRepo->getQuantity(medicine)){
                 std::cout << "The quantity you want to remove exceeds the total quantity!" << std::endl;
                 getline(std::cin, choice);
                 continue;
             }
-            int newQuantity = getQuantity(medicine) - stoi(quantity);
-            MedicineRepoModify(medicine, std::to_string(newQuantity));
+            int newQuantity = this->medicineRepo->getQuantity(medicine) - stoi(quantity);
+            this->medicineRepo->MedicineRepoModify(medicine, std::to_string(newQuantity));
             std::cout << "Medicine was removed successfully!" << std::endl;
             std::getline(std::cin, choice);
         }
@@ -240,7 +240,7 @@ void ModifyMedicineList(){
                 continue;
             }
             std::string lastChange = changes.top();
-            MedicineRepoRemove(lastChange);
+            this->medicineRepo->MedicineRepoRemove(lastChange);
             redo.push(changes.top());
             changes.pop();
             dSeeMedicineList();
@@ -252,7 +252,7 @@ void ModifyMedicineList(){
                 continue;
             }
             std::string lastChange = redo.top();
-            MedicineRepoAdd(lastChange);
+            this->medicineRepo->MedicineRepoAdd(lastChange);
             changes.push(redo.top());
             redo.pop();
             dSeeMedicineList();
@@ -269,7 +269,7 @@ void ModifyMedicineList(){
     }while(choice != "stop");
 }
 
-void FillMedicineFile(){
+void DoctorOperations::FillMedicineFile(){
     bool found = false;
 
     int patientNumber = 1;
@@ -336,7 +336,7 @@ void FillMedicineFile(){
     }
 
     if (choice == 1) {
-        showPatientFile(getID(currentPatient, patientPath));
+        showPatientFile(this->parse->getID(currentPatient, patientPath));
         std::cout << std::endl;
     }
 
@@ -363,7 +363,7 @@ void FillMedicineFile(){
     std::cout << "Prescription: ";
     std::string prescription; std::getline(std::cin, prescription);
 
-    std::string file = std::to_string(loggedDoctor.getID()) + "," + std::to_string(getID(patients[choice], patientPath))
+    std::string file = std::to_string(loggedDoctor.getID()) + "," + std::to_string(this->parse->getID(patients[choice], patientPath))
             + "," + birth.showTime() + "," + diagnosis + "," + prescription;
     saveFile(file);
 
@@ -371,7 +371,7 @@ void FillMedicineFile(){
 
 }
 
-void makeAppointment(int patientID, DateTime date){
+void DoctorOperations::makeAppointment(int patientID, DateTime date){
     std::ifstream aFin(appointmentsPath);
     std::string appointments[100];
     int num = 0;
@@ -411,13 +411,13 @@ void makeAppointment(int patientID, DateTime date){
     std::cout << "The appointment was successful!" << std::endl << std::endl;
 }
 
-void saveFile(const std::string& file){
+void DoctorOperations::saveFile(const std::string& file){
     std::ofstream fout(doctorPatients, std::ios_base::app);
     fout << file << std::endl;
 }
 
-bool hasAppointment(const std::string& patient){
-    int patientID = getID(patient, patientPath);
+bool DoctorOperations::hasAppointment(const std::string& patient){
+    int patientID = this->parse->getID(patient, patientPath);
 
     std::ifstream fin(appointmentsPath);
     std::string data;
@@ -428,7 +428,7 @@ bool hasAppointment(const std::string& patient){
 
 }
 
-void showPatientFile(int ID){
+void DoctorOperations::showPatientFile(int ID){
     std::ifstream fin(pFilePath);
     std::string data;
 

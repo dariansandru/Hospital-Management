@@ -8,18 +8,22 @@
 #include <fstream>
 #include <iostream>
 
-void PatientRepoLoad();
+class PatientRepo{
+private:
+    std::vector<std::string> patientRepo;
+public:
+    void PatientRepoLoad();
 
-void PatientRepoSave();
+    void PatientRepoSave();
 
-void PatientRepoAdd(const std::string&);
+    void PatientRepoAdd(const std::string&);
 
-void PatientRepoShow();
+    bool PatientRepoDuplicate(const std::string&);
 
-bool PatientRepoDuplicate(const std::string&);
+    bool PatientRepoExist(const std::string&);
 
-bool PatientRepoExist(const std::string&);
+    std::string PatientRepoPassword(const std::string&);
 
-std::string PatientRepoPassword(const std::string&);
+};
 
 #endif //HOSPITAL_PATIENTREPO_H

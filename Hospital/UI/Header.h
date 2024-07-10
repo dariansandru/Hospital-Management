@@ -9,14 +9,29 @@
 #include "../Repos/DoctorRepo.h"
 #include "../Repos/PatientRepo.h"
 
-void showHospitalHeader();
+class Header{
+private:
+    std::unique_ptr<DoctorRepo> doctorRepo;
+    std::unique_ptr<MedicineRepo> medicineRepo;
+    std::unique_ptr<PatientRepo> patientRepo;
+public:
+    void init(DoctorRepo* _doctorRepo,
+              MedicineRepo* _medicineRepo,
+              PatientRepo* _patientRepo) {
+        doctorRepo = std::make_unique<class DoctorRepo>(*_doctorRepo);
+        medicineRepo = std::make_unique<class MedicineRepo>(*_medicineRepo);
+        patientRepo = std::make_unique<class PatientRepo>(*_patientRepo);
+    }
 
-void showPatientHeader();
+    void showHospitalHeader();
 
-void showDoctorHeader();
+    void showPatientHeader();
 
-void showPatientOptions();
+    void showDoctorHeader();
 
-void showDoctorOptions();
+    void showPatientOptions();
+
+    void showDoctorOptions();
+};
 
 #endif //HOSPITAL_HEADER_H

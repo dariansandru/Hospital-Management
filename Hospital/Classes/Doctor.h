@@ -5,6 +5,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 #include "../Classes/DateTime.h"
 
 class Doctor{
@@ -39,7 +40,7 @@ protected:
     std::string address;
     DateTime dateOfBirth;
 
-    int patients[100] = {-1};
+    std::vector<int> patients;
     int totalPatients = 0;
 };
 

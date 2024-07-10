@@ -1,0 +1,3 @@
+1,1/3/2005,str,112,Anesthesiology
+2,23/9/2004,Orastie nr. 36,0731182987,Cardiology
+3,1/3/2005,Street Avram Iancu nr.58,0741911506,Cardiology

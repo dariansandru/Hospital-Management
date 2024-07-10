@@ -1,16 +1,16 @@
 #include "MedicineRepo.h"
 
-void MedicineRepoLoad(){
+void MedicineRepo::MedicineRepo::MedicineRepoLoad(){
     std::ifstream mFin(medicinePath);
     std::string data;
 
     while (getline(mFin, data)){
-        medicineRepo[totalMedicine] = data;
+        medicineRepo.push_back(data);
         totalMedicine++;
     }
 }
 
-void MedicineRepoSave(){
+void MedicineRepo::MedicineRepoSave(){
     std::ofstream mTrunc(medicinePath, std::ios_base::trunc);
     mTrunc.close();
 
@@ -22,13 +22,13 @@ void MedicineRepoSave(){
     mFout.close();
 }
 
-void MedicineRepoAdd(const std::string& line){
+void MedicineRepo::MedicineRepoAdd(const std::string& line){
     medicineRepo[totalMedicine] = line;
     totalMedicine++;
     MedicineRepoSave();
 }
 
-void MedicineRepoRemove(const std::string& line){
+void MedicineRepo::MedicineRepoRemove(const std::string& line){
     bool found = false;
     std::ifstream mFin(medicinePath);
     int newTotal = 0;
@@ -47,7 +47,7 @@ void MedicineRepoRemove(const std::string& line){
     MedicineRepoSave();
 }
 
-void MedicineRepoModify(const std::string& medicine, const std::string& quantity){
+void MedicineRepo::MedicineRepoModify(const std::string& medicine, const std::string& quantity){
     std::ifstream fin(medicinePath);
     std::string data;
 
@@ -63,7 +63,7 @@ void MedicineRepoModify(const std::string& medicine, const std::string& quantity
     }
 }
 
-int getQuantity(const std::string& medicine){
+int MedicineRepo::getQuantity(const std::string& medicine){
     std::ifstream fin(medicinePath);
     std::string data;
 
@@ -73,7 +73,7 @@ int getQuantity(const std::string& medicine){
     return -1;
 }
 
-bool MedicineRepoExist(const std::string& medicine){
+bool MedicineRepo::MedicineRepoExist(const std::string& medicine){
     std::ifstream fin(medicinePath);
     std::string data;
 

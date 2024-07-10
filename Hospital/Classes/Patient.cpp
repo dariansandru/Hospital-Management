@@ -69,10 +69,6 @@ bool Patient::emptyFile() const {
     return false;
 }
 
-void Patient::assignSymptoms(const std::string &line) {
-    this->symptoms = line;
-}
-
 std::string Patient::createFile(){
     return std::to_string(this->UID) + "," + std::to_string(this->doctorID) + "," + this->dateOfBirth.showTime() + "," + this->address + "," +
             this->phoneNumber + "," + this->symptoms;

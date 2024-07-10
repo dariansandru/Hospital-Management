@@ -1,0 +1,5 @@
+Insulin,100
+Penicillin,50
+Atorvastatin,100
+Metformin,0
+Xanax,100
